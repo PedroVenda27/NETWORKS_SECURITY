@@ -1,0 +1,55 @@
+---- PORT-SECURITY ----
+
+conf t
+interface range (interfaces)
+ switchport port-security
+ switchport port-security maximum 1
+ switchport port-security violation shutdown
+ switchport port-security mac-address sticky
+exit
+
+show port-security
+show port-security interface f0/1
+show run
+show port-security address
+
+
+---- VLAN ATTACKS  ----
+
+interface range e0/0 - 3 , e1/0 - 3 , e2/0 - 3 , e3/0 - 3 , e4/0 - 3 , e5/0 - 3
+ switchport mode access
+ switchport access vlan 99 / shutdown 
+exit
+
+interface range ethernet0/0 - 2
+ switchport trunk encapsulation dot1q -- router
+ switchport mode trunk
+ switchport trunk native vlan 60
+ switchport trunk allowed vlan 10,20,50,60,70,80,90
+ switchport nonegotiate
+ 
+ 
+ ------PORTFAST-------- PORTAS ACCESS
+conf t
+interface <id>
+spanning-tree portfast
+
+------BPDU GUARD-------- PORTAS ACCESS 
+conf t
+interface <id>
+spanning-tree bpduguard enable
+
+
+------ROOT GUARD-------- PORTAS DESIGNATED
+conf t
+interface <id>
+spanning-tree guard root 
+
+------LOOP guard-------- PORTAS BLOCKED/ALTERNATE
+conf t
+interface <id>
+spanning-tree guard loop 
+
+------Vizualizar Spanning Tree--------
+show spanning tree
+

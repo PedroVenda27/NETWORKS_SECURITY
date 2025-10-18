@@ -1,0 +1,64 @@
+--- NOME NO DISPOSITIVO
+hostname Router1
+
+--- IP NA INTERFACE
+interface GigabitEthernet0/0
+ip address 192.168.1.1 255.255.255.0
+no shutdown
+
+--- PASSWORD PARA CONSOLA
+line console 0
+login
+exit
+
+--- PASSWORD PARA VTY
+line vty 0 4
+password cisco
+login
+exit
+
+--- PASSWORD PRIVELIGED EXEC MODE
+enable secret class
+
+copy running-config startup-config Write mem
+
+--- PASSWORD ENCRYPTED
+service password-encryption
+
+--- DEFENIÇOES DE SEGURANÇA NA PASSWORD 
+security passwords min-length 8
+login block-for 120 attempts 3 within 60
+exec-timeout 5 30
+
+--- PASSWORD USING TYPE 8
+enable algorithm-type pbkdf2 secret class
+telnet 10.10.10.2
+
+--- DEFENIR DOMINIO E GERAR PAR DE CHAVES SSH
+ip domain-name lab10.ismai.pt
+crypto key generate rsa
+How many bits in the modulus [512]: 1024
+
+--.CRIAR USUARIO AUTENTICADO SSH
+username admin secret cisco
+
+line vty 0 15
+login local --- PEDIR SEMPRE SENHA E USER
+transport input ssh --- PERMITIR APENAS SSH
+no password cisco
+
+
+--- DISABLE DNS LOOKUP
+no ip domain-lookup
+
+--- BANNER
+banner motd #Isto é Um Banner!!!#
+
+
+------------ TESTING -------------
+
+telnet 10.10.10.2 ----- % Connection refused by remote host
+
+ssh --- usage: ssh [-l username] hostname
+ssh -l admin 10.10.10.2
+

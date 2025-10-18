@@ -1,0 +1,78 @@
+
+STANDARD -- APENAS IP DE ORIGEM  (Close Destino out)
+EXTENDED -- IP DE ORIGEM DESTINO PROTOCOL PORT (Close Origem in)
+ 
+---- CONFIGURE ACL ----
+
+---- STANDARD NUMERED (1-99 ; 1000-1999) ----
+
+access-list [NUMERO] [permit | deny] [IP_ORIGEM] [WILDCARD]
+
+Exemplo IP:
+  access-list 10 deny 192.168.1.10 0.0.0.0  ou  access-list 10 deny host 192.168.1.10
+Exemplo Rede:
+  access-list 10 deny 192.168.1.0 0.0.0.255
+
+---- STANDARD NAMED ----
+
+ip access-list standard [NOME]
+[permit | deny] [IP_ORIGEM] [WILDCARD]
+
+Exemplo IP:
+  ip access-list standard BLOQUEIO_UTILIZADOR
+  deny 192.168.1.10 0.0.0.0
+  permit any
+Exemplo Rede:
+  ip access-list standard BLOQUEIO_REDE
+  deny 192.168.1.0 0.0.0.255
+  permit any
+
+---- EXTENDED NUMERED (100-199 ; 2000-2699) ----
+
+access-list [NUMERO] [permit | deny] [PROTOCOLO] [IP_ORIGEM] [WILDCARD] [IP_DESTINO] [WILDCARD][PORTA]
+
+access-list 100 deny tcp host 192.168.1.10 any eq 80 -- um utilizador
+access-list 10 deny tcp 192.168.1.0 0.0.0.255 any eq 80 -- uma rede
+
+---- EXTENDED NAMED ----
+
+ip access-list extended [NOME]
+[permit | deny] [PROTOCOLO] [IP_ORIGEM] [WILDCARD] [IP_DESTINO] [WILDCARD] [PORTA]
+
+ip access-list extended EXEMPLO_NAMED_EXTENDED
+deny tcp host 192.168.1.10 any eq 21
+deny ip 192.168.1.0 0.0.0.255 any  
+
+
+
+---- PROTOCOLS ----
+
+icmp
+iptcp
+udp
+
+---- PORTS ----
+
+Domain (53)
+FTP (21)(20)
+Telnet(23)
+HTTP (80)
+HTTPS (25)
+SMTP (433)
+
+
+--- TESTING ---
+
+ping 192.168.10.1
+ftp 192.168.10.1
+telnet 192.168.10.1
+
+--- OUTROS ---
+
+no access-list
+show access-list
+show running-config
+
+
+deny ip: Bloqueia todo o tráfego IP 
+deny tcp: Só bloquearia pacotes do protocolo TCP. 
