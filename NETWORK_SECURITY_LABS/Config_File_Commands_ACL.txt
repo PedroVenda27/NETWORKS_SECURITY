@@ -1,0 +1,79 @@
+
+------------ ROUTER ------------
+
+interface eth0/0/0
+ip address 192.168.10.1 255.255.255.0
+no shutdown
+
+------------ STANDARD NAMED ------------
+
+ip access-list standard NAME
+! Bloquear uma utilizador
+ permit 192.168.20.4
+ deny any
+exit
+
+interface G0/0
+ ip access-group NAME out
+ ip access-group NAME in
+
+
+------------ STANDARD NUMBERED ------------     (1-99 1300-1999)
+
+! Bloquear uma rede inteira
+access-list 1 deny 192.168.11.0 0.0.0.255   
+access-list 1 permit any
+
+interface G0/0
+ ip access-group 1 out
+ ip access-group 1 in
+
+------------ EXTENDED NAMED ------------
+
+ip access-list extended NAME
+! Bloquear uma utilizador par um local
+ permit tcp 172.22.34.96 0.0.0.15 host 172.22.34.62 eq 80 HTTP
+ permit tcp 172.22.34.96 0.0.0.15 host 172.22.34.62 eq 443 HTTPS
+ permit tcp 172.22.34.96 0.0.0.15 host 172.22.34.62 eq ftp
+ permit icmp 172.22.34.96 0.0.0.15 host 172.22.34.62
+ permit ip any any
+exit
+
+interface G0/0
+ ip access-group NAME out
+ ip access-group NAME in
+
+
+------------ EXTENDED NUMBERED ------------ (100–199 2000–2699)
+ 
+! Permitir FTP e ICMP de um grupo de IPs a um host
+ access-list 100 permit tcp 172.22.34.96 0.0.0.15 host 172.22.34.62 eq 80 -HTTP
+ access-list 100 permit tcp 172.22.34.96 0.0.0.15 host 172.22.34.62 eq 443 -HTTPS
+ access-list 100 permit tcp 172.22.34.96 0.0.0.15 host 172.22.34.62 eq 21  -ftp
+ access-list 100 permit icmp 172.22.34.96 0.0.0.15 host 172.22.34.
+
+
+interface G0/0
+ ip access-group 100 in
+ ip access-group 100 out
+
+------------ TESTES DE CONECTIVIDADE ------------
+
+ping 172.22.34.62
+telnet 172.22.34.62 80
+telnet 172.22.34.62 443
+ftp 172.22.34.62
+
+show access-lists
+show running-config
+
+------------ NOTAS ------------
+DNS (53), SMTP (25), FTP (21) 
+
+Queres permitir só 1 utilizador? → usa host <ip>
+
+Queres permitir uma rede inteira? → usa <ip> <wildcard>
+
+Estás a configurar ACL standard? → só tens origem.
+
+Estás a configurar ACL extended? → defines tudo: origem, destino, protocolo, porta.

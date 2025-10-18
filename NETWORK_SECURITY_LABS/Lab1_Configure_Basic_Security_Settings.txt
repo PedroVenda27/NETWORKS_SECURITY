@@ -1,0 +1,41 @@
+enable
+
+configure terminal (conf t)
+
+Configure device name as shown in the topology
+hostname Router1
+
+
+Configure IP address as listed in Addressing Table
+interface GigabitEthernet0/0
+ ip address 10.10.10.2 255.255.255.0
+ no shutdown
+
+Assign class as the privileged EXEC password
+enable secret class
+
+
+Assign cisco as the console and vty passwords
+line con 0
+password cisco
+login
+line vty 0 4
+password cisco
+login
+
+write memory
+show run
+
+configure terminal
+service password-encryption
+
+
+ip domain-name lab10.ismai.pt
+crypto key generate rsa
+-> pedir para escolher tamanho de chave -> 1024
+
+username admin secret cisco
+line vty 0 15
+login local
+transport input ssh
+no password cisco

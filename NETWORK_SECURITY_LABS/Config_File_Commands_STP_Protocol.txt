@@ -1,0 +1,56 @@
+SPANNING-TREE PROTOCOL (STP)
+
+
+--------- CONFIGURE SPANNING-TREE PROTOCOL ------------
+
+spanning-tree vlan 1 priority 0           ! defenir um switch como root Bridge (Priority 0)
+exit
+
+show spanning-tree                        ! Vizualizar a Spanning Tree
+
+interface range f0/2 -4
+switchport acess vlan 1000                ! Colocar portas numa Vlan Parking
+shutdown
+
+interface f0/1                            ! Configurar portas em modo trunk entre switch! (Ambos os Switch)
+switchport mode trunk
+swichport mode trunk native vlan 99       ! Alterar/Configurar Native Vlan
+switchport nonegotiate                    ! Prevenir uso de DTP
+
+show interfaces trunk                     ! Portas Trunk
+
+
+--------- PROTECT SPANNING-TREE PROTOCOL ------------
+
+--- PORTFAST ---
+
+interface f0/5        
+spanning-tree portfast                    ! Enable Portfast (Todos os Switch interfaces Ligação Pc)
+
+spanning-tree portfast default            ! Global
+
+--- BPDU GUARD ---
+
+interface f0/5 
+spanning-tree bpduguard enable            ! Enable BPDU guard (Todos os Switch interfaces Ligação Pc)
+
+spanning-tree portfast bpduguard          ! Global
+
+show spanning-tree interface f0/6 detail  ! Verificar BPDU guard configurado
+
+--- ROOT GUARD ---
+
+interface f0/5 
+spanning-tree guard root                  ! Enable ROOT guard (Todos os Switch não root interface direção ao root)
+
+show run | section interface              ! verificar interface liha "spanning-tree guard root" 
+show run              
+
+--- LOOP GUARD ---
+                        
+
+spanning-tree loopguard default           ! Enable LOOP guard (Todos os Switch não root todas interface)
+
+spanning-tree guard loop                  ! Interface Especifica
+
+show spanning-tree summary                ! verificar 

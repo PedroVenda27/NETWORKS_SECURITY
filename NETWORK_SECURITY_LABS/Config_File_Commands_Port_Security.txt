@@ -1,0 +1,29 @@
+PORT SECURITY
+
+
+--------- CONFIGURE PORT SECURITY ------------
+
+interface range f0/1 - 2
+ switchport port-security                      ! Ativa o Port Security nas interfaces selecionadas
+ switchport port-security maximum 1            ! Permite apenas 1 endereço MAC por porta
+ switchport port-security mac-address sticky   ! O switch aprende dinamicamente o MAC e armazena no running-config
+ switchport port-security violation restrict   ! Em caso de violação, descarta os pacotes e envia log, mas não faz shutdown
+
+interface range f0/3 - 24, g0/1 - 2
+ shutdown                                      ! Desativa todas essas interfaces por segurança
+
+
+--------- VERIFY PORT SECURITY ------------
+
+show run | begin interface                     ! Mostra a configuração a partir da primeira interface configurada
+show port-security                             ! Exibe um resumo do estado do Port Security por interface
+show port-security address                     ! Mostra os MACs aprendidos ou configurados estaticamente com Port Security
+show port-security interface f0/2              ! Mostra o estado atual da segurança da porta F0/2, incluindo violações
+
+
+
+
+
+
+
+
