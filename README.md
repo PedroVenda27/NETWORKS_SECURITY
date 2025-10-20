@@ -4,7 +4,7 @@ Este repositório contém todo o Conteudo Dado Nas Aulas Laboratórios e Fichas 
 
 Para esta Cadeira Foram Utilizados e Estudados Conteudos Cisco bem como utilizado nos casos praticos a Plataforma Emuladora Cisco Packet Tracer.
 
-Para alem disso Foi ainda Desenvolvido um Projeto Colaborativo "PBL" entre duas Cadeiras Segurança de Redes e Sistemas e  Redes e Comunicação de Dados 2 que consistia na elaboraçao e configuração e devida proteção de uma topologia de uma universidade.
+Para alem disso Foi ainda Desenvolvido um Projeto Colaborativo "PBL - Project-Based Learning" entre duas Cadeiras Redes e Comunicação de Dados 2 e Segurança de Redes e Sistemas que consistia na elaboraçao e configuração e devida proteção de uma topologia de uma universidade.
 Este Trabalho estara todo num repositório a parte com o devido enunciado explicação e Desenvolvimento 
 
 ---
